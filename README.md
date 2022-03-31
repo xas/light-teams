@@ -22,6 +22,8 @@ Because of this, the start of the application is a little painful.
 
 The application will loop to refresh the token when its lifetime expire.
 
+You can read about the full process from [here](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-device-code)
+
 ## Display errors
 
 If the _Blinkt!_ is switched off, the application is not running.  
