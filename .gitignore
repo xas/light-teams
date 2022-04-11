@@ -5,3 +5,5 @@ obj/
 *.user
 .editorconfig
 PublishProfiles/
+*.Development.*
+nlog.config

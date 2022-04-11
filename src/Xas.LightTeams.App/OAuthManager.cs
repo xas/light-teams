@@ -1,7 +1,4 @@
-﻿// SPDX-License-Identifier: MIT
-// Original source @ https://github.com/xas/light-teams
-
-using System.Net.Http.Headers;
+﻿using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using Xas.LightTeams.Http;
 
@@ -17,6 +14,7 @@ namespace Xas.LightTeams.App
         private string _refreshToken;
         private string _accessToken;
         private bool _isAuthenticated;
+        private const int _delayInterval = -10000 * 2;
 
         public DateTime DelayToAuthenticate { get; private set; }
         public DateTime DelayBeforeRefresh { get; private set; }
@@ -64,7 +62,7 @@ namespace Xas.LightTeams.App
                 if (response.IsSuccessStatusCode)
                 {
                     AuthentificationResponse authentificationResponse = await response.Content.ReadFromJsonAsync<AuthentificationResponse>();
-                    DelayBeforeRefresh = DateTime.UtcNow.AddSeconds(authentificationResponse.Expires);
+                    DelayBeforeRefresh = DateTime.UtcNow.AddSeconds(authentificationResponse.Expires).AddMilliseconds(_delayInterval);
                     _refreshToken = authentificationResponse.RefreshToken;
                     _accessToken = authentificationResponse.AccessToken;
                     _isAuthenticated = true;
@@ -87,7 +85,7 @@ namespace Xas.LightTeams.App
                 if (response.IsSuccessStatusCode)
                 {
                     AuthentificationResponse authentificationResponse = await response.Content.ReadFromJsonAsync<AuthentificationResponse>();
-                    DelayBeforeRefresh = DateTime.UtcNow.AddSeconds(authentificationResponse.Expires);
+                    DelayBeforeRefresh = DateTime.UtcNow.AddSeconds(authentificationResponse.Expires).AddMilliseconds(_delayInterval);
                     _refreshToken = authentificationResponse.RefreshToken;
                     _accessToken = authentificationResponse.AccessToken;
                     _isAuthenticated = true;
